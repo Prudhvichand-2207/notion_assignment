@@ -49,7 +49,7 @@
 
 **Conclusion**: All interactions respond well under 100ms target.
 
-## 🔧 React Optimization Techniques
+## React Optimization Techniques
 
 ### 1. Memoization Strategies
 
@@ -227,7 +227,7 @@ const visibleData = data.filter((point) => {
 - Data points redraw on every frame (necessary for real-time)
 - Background elements cached when possible
 
-## 📈 Scaling Strategy
+## Scaling Strategy
 
 ### Current Architecture Decisions
 
@@ -281,7 +281,7 @@ const visibleData = data.filter((point) => {
 3. **Custom Metrics**: Extend PerformanceMonitor component
 4. **Real User Monitoring (RUM)**: Track actual user performance
 
-## 🔍 Bottleneck Analysis
+## Bottleneck Analysis
 
 ### Identified Bottlenecks
 
