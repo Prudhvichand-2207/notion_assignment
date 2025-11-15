@@ -388,7 +388,7 @@ const visibleData = data.filter((point) => {
 
 6. **Performance Monitoring**: Built-in monitoring helps identify issues early.
 
-## 📝 Conclusion
+## Conclusion
 
 The dashboard successfully achieves the performance targets:
 - 60fps with 10k+ data points
