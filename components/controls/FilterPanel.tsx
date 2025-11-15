@@ -58,20 +58,20 @@ export default React.memo(function FilterPanel() {
   }, [data, valueRange, setFilters]);
   
   return (
-    <div className="filter-panel p-4 bg-white rounded-lg shadow-md">
-      <h3 className="text-lg font-semibold mb-4">Filters</h3>
+    <div className="filter-panel panel">
+      <h3 className="text-xl font-bold mb-6 text-gray-800">Filters</h3>
       
-      <div className="mb-4">
-        <label className="block text-sm font-medium mb-2">Categories</label>
+      <div className="mb-6">
+        <label className="block text-sm font-semibold mb-3 text-gray-700">Categories</label>
         <div className="flex flex-wrap gap-2">
           {availableCategories.map((category) => (
             <button
               key={category}
               onClick={() => handleCategoryToggle(category)}
-              className={`px-3 py-1 rounded text-sm ${
+              className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
                 filters.categories.includes(category)
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-200 text-gray-700'
+                  ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/30'
+                  : 'bg-gray-100 hover:bg-gray-200 text-gray-700 hover:shadow-md'
               }`}
             >
               {category}
@@ -106,9 +106,9 @@ export default React.memo(function FilterPanel() {
       
       <button
         onClick={resetFilters}
-        className="w-full px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
+        className="w-full px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-semibold transition-all shadow-sm hover:shadow-md"
       >
-        Reset Filters
+        🔄 Reset Filters
       </button>
     </div>
   );

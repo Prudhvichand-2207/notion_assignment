@@ -5,13 +5,23 @@ export interface FrameMetrics {
 
 export class PerformanceMonitor {
   private frameTimes: FrameMetrics[] = [];
-  private lastFrameTime: number = performance.now();
+  private lastFrameTime: number = 0;
   private frameCount: number = 0;
   private readonly maxSamples = 60; // Keep last 60 frames
   
+  constructor() {
+    // Initialize lastFrameTime safely for SSR
+    if (typeof performance !== 'undefined') {
+      this.lastFrameTime = performance.now();
+    }
+  }
+  
   update(): void {
+    // Guard against SSR
+    if (typeof performance === 'undefined') return;
+    
     const now = performance.now();
-    const frameTime = now - this.lastFrameTime;
+    const frameTime = this.lastFrameTime > 0 ? now - this.lastFrameTime : 0;
     
     this.frameTimes.push({
       frameTime,
@@ -46,6 +56,7 @@ export class PerformanceMonitor {
   }
   
   getMemoryUsage(): number {
+    if (typeof performance === 'undefined') return 0;
     if ('memory' in performance) {
       const mem = (performance as any).memory;
       return mem.usedJSHeapSize / 1024 / 1024; // MB
@@ -56,7 +67,9 @@ export class PerformanceMonitor {
   reset(): void {
     this.frameTimes = [];
     this.frameCount = 0;
-    this.lastFrameTime = performance.now();
+    if (typeof performance !== 'undefined') {
+      this.lastFrameTime = performance.now();
+    }
   }
 }
 
@@ -64,6 +77,11 @@ export function measurePerformance<T>(
   fn: () => T,
   label?: string
 ): { result: T; duration: number } {
+  // Guard against SSR
+  if (typeof performance === 'undefined') {
+    return { result: fn(), duration: 0 };
+  }
+  
   const start = performance.now();
   const result = fn();
   const duration = performance.now() - start;

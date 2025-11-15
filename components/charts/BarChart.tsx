@@ -11,7 +11,7 @@ interface BarChartProps {
   color?: string;
 }
 
-export default React.memo(function BarChart({
+export default function BarChart({
   data,
   dimensions,
   viewport,
@@ -35,5 +35,5 @@ export default React.memo(function BarChart({
       }}
     />
   );
-});
+}
 

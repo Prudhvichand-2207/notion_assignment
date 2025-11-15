@@ -59,16 +59,36 @@ export function DataProvider({
         const valueChanged = Math.abs(prev.valueRange[0] - minValue) > 1 || 
                             Math.abs(prev.valueRange[1] - maxValue) > 1;
         
-        if (timeChanged || valueChanged) {
+        // Only update valueRange if it's significantly outside the actual data range
+        // This prevents auto-resetting when user is manually adjusting
+        const valueRangeNeedsUpdate = 
+          prev.valueRange[0] < minValue - 1 || 
+          prev.valueRange[1] > maxValue + 1 ||
+          (Math.abs(prev.valueRange[0] - minValue) > 1 && Math.abs(prev.valueRange[1] - maxValue) > 1);
+        
+        if (timeChanged) {
           return {
             ...prev,
             timeRange: {
               start: minTime,
               end: maxTime,
             },
-            valueRange: [minValue, maxValue],
+            // Only update valueRange if it's way outside bounds
+            ...(valueRangeNeedsUpdate ? { valueRange: [minValue, maxValue] } : {}),
           };
         }
+        
+        // Only update valueRange if it's significantly outside bounds
+        if (valueRangeNeedsUpdate) {
+          return {
+            ...prev,
+            valueRange: [
+              Math.max(minValue, prev.valueRange[0]),
+              Math.min(maxValue, prev.valueRange[1])
+            ],
+          };
+        }
+        
         return prev;
       });
     }

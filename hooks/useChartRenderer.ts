@@ -14,6 +14,7 @@ export interface ChartRendererOptions {
   viewport: Viewport;
   color?: string;
   lineWidth?: number;
+  valueRange?: [number, number];
 }
 
 export function useChartRenderer(
@@ -29,6 +30,14 @@ export function useChartRenderer(
   const animationFrameRef = useRef<number | null>(null);
   const lastDataRef = useRef<DataPoint[]>([]);
   
+  // Use refs to track latest values to avoid stale closures
+  const optionsRef = useRef(options);
+  const dataRef = useRef(data);
+  
+  // Always update refs with latest values (no dependencies to avoid hook order issues)
+  optionsRef.current = options;
+  dataRef.current = data;
+  
   const render = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -36,7 +45,11 @@ export function useChartRenderer(
     const ctx = canvas.getContext('2d', { alpha: false });
     if (!ctx) return;
     
-    const { dimensions } = options;
+    // Use refs to get latest values
+    const currentOptions = optionsRef.current;
+    const currentData = dataRef.current;
+    
+    const { dimensions, viewport, valueRange } = currentOptions;
     const displayWidth = dimensions.width;
     const displayHeight = dimensions.height;
     
@@ -50,18 +63,18 @@ export function useChartRenderer(
     clearCanvas(ctx, displayWidth, displayHeight);
     
     // Draw grid
-    if (data.length > 0) {
-      drawGrid(ctx, dimensions, options.viewport, data);
+    if (currentData.length > 0) {
+      drawGrid(ctx, dimensions, viewport, currentData, valueRange);
       
       // Draw axes
-      drawAxes(ctx, dimensions, data);
+      drawAxes(ctx, dimensions, currentData, valueRange);
       
       // Draw chart-specific content
-      renderFn(ctx, data, options);
+      renderFn(ctx, currentData, currentOptions);
     }
     
-    lastDataRef.current = data;
-  }, [data, options, renderFn]);
+    lastDataRef.current = currentData;
+  }, [renderFn]);
   
   useEffect(() => {
     const animate = () => {
@@ -100,12 +113,12 @@ export function renderLineChart(
   
   // Render only visible points for performance
   const visibleData = data.filter((point) => {
-    const transformed = transformPoint(point, dimensions, viewport, data);
+    const transformed = transformPoint(point, dimensions, viewport, data, options.valueRange);
     return transformed && transformed.x >= 0 && transformed.x <= dimensions.width;
   });
   
   visibleData.forEach((point) => {
-    const transformed = transformPoint(point, dimensions, viewport, data);
+    const transformed = transformPoint(point, dimensions, viewport, data, options.valueRange);
     if (!transformed) return;
     
     if (isFirst) {
@@ -122,7 +135,7 @@ export function renderLineChart(
   const recentPoints = visibleData.slice(-10);
   ctx.fillStyle = color;
   recentPoints.forEach((point) => {
-    const transformed = transformPoint(point, dimensions, viewport, data);
+    const transformed = transformPoint(point, dimensions, viewport, data, options.valueRange);
     if (transformed) {
       ctx.beginPath();
       ctx.arc(transformed.x, transformed.y, 3, 0, Math.PI * 2);
@@ -143,14 +156,14 @@ export function renderBarChart(
   ctx.fillStyle = color;
   
   const visibleData = data.filter((point) => {
-    const transformed = transformPoint(point, dimensions, viewport, data);
+    const transformed = transformPoint(point, dimensions, viewport, data, options.valueRange);
     return transformed && transformed.x >= 0 && transformed.x <= dimensions.width;
   });
   
   const barWidth = Math.max(2, (dimensions.width - dimensions.padding.left - dimensions.padding.right) / visibleData.length / 2);
   
   visibleData.forEach((point) => {
-    const transformed = transformPoint(point, dimensions, viewport, data);
+    const transformed = transformPoint(point, dimensions, viewport, data, options.valueRange);
     if (!transformed) return;
     
     const { height, padding } = dimensions;
@@ -177,7 +190,7 @@ export function renderScatterPlot(
   ctx.fillStyle = color;
   
   data.forEach((point) => {
-    const transformed = transformPoint(point, dimensions, viewport, data);
+    const transformed = transformPoint(point, dimensions, viewport, data, options.valueRange);
     if (!transformed) return;
     
     // Skip if outside viewport
@@ -217,7 +230,7 @@ export function renderHeatmap(
   
   // Count points in each grid cell
   data.forEach((point) => {
-    const transformed = transformPoint(point, dimensions, viewport, data);
+    const transformed = transformPoint(point, dimensions, viewport, data, options.valueRange);
     if (!transformed) return;
     
     const gridXIndex = Math.floor((transformed.x - padding.left) / gridSize);

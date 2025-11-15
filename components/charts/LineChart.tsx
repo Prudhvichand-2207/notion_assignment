@@ -11,7 +11,7 @@ interface LineChartProps {
   color?: string;
 }
 
-export default React.memo(function LineChart({
+function LineChart({
   data,
   dimensions,
   viewport,
@@ -35,5 +35,8 @@ export default React.memo(function LineChart({
       }}
     />
   );
-});
+}
+
+// Don't use React.memo - let it re-render when props change
+export default LineChart;
 

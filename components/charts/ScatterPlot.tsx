@@ -11,7 +11,7 @@ interface ScatterPlotProps {
   color?: string;
 }
 
-export default React.memo(function ScatterPlot({
+export default function ScatterPlot({
   data,
   dimensions,
   viewport,
@@ -35,5 +35,5 @@ export default React.memo(function ScatterPlot({
       }}
     />
   );
-});
+}
 

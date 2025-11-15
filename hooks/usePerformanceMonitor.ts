@@ -11,13 +11,16 @@ export function usePerformanceMonitor() {
     renderTime: 0,
     dataProcessingTime: 0,
     frameCount: 0,
-    lastFrameTime: performance.now(),
+    lastFrameTime: typeof window !== 'undefined' && typeof performance !== 'undefined' ? performance.now() : 0,
   });
   
   const monitorRef = useRef(new PerformanceMonitor());
   const updateIntervalRef = useRef<NodeJS.Timeout | null>(null);
   
   const updateMetrics = useCallback(() => {
+    // Guard against SSR
+    if (typeof window === 'undefined' || typeof performance === 'undefined') return;
+    
     monitorRef.current.update();
     
     const fps = monitorRef.current.getFPS();
@@ -35,6 +38,9 @@ export function usePerformanceMonitor() {
   }, []);
   
   useEffect(() => {
+    // Guard against SSR
+    if (typeof window === 'undefined') return;
+    
     updateIntervalRef.current = setInterval(updateMetrics, 1000); // Update every second
     
     return () => {
@@ -45,9 +51,21 @@ export function usePerformanceMonitor() {
   }, [updateMetrics]);
   
   const reset = useCallback(() => {
+    // Reset the internal monitor state
     monitorRef.current.reset();
-    updateMetrics();
-  }, [updateMetrics]);
+    
+    // Immediately reset metrics to initial values
+    setMetrics({
+      fps: 0,
+      memoryUsage: typeof window !== 'undefined' && typeof performance !== 'undefined' && 'memory' in performance
+        ? Math.round(((performance as any).memory.usedJSHeapSize / 1024 / 1024) * 100) / 100
+        : 0,
+      renderTime: 0,
+      dataProcessingTime: 0,
+      frameCount: 0,
+      lastFrameTime: typeof window !== 'undefined' && typeof performance !== 'undefined' ? performance.now() : 0,
+    });
+  }, []);
   
   return {
     metrics,

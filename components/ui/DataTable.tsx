@@ -10,6 +10,13 @@ interface DataTableProps {
 }
 
 export default React.memo(function DataTable({ data, height = 400 }: DataTableProps) {
+  const [isMounted, setIsMounted] = React.useState(false);
+  
+  // Prevent hydration mismatch by only formatting dates after mount
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
+  
   const { containerRef, visibleItems, offsetY, totalHeight, startIndex } =
     useVirtualization(data, {
       itemHeight: 40,
@@ -19,17 +26,21 @@ export default React.memo(function DataTable({ data, height = 400 }: DataTablePr
   
   const formatTimestamp = useMemo(
     () => (timestamp: number) => {
+      if (!isMounted) {
+        // Return a stable placeholder during SSR to prevent hydration mismatch
+        return '--';
+      }
       const date = new Date(timestamp);
       return date.toLocaleString();
     },
-    []
+    [isMounted]
   );
   
   return (
-    <div className="data-table bg-white rounded-lg shadow-md overflow-hidden">
-      <div className="p-4 border-b">
-        <h3 className="text-lg font-semibold">
-          Data Table ({data.length} points)
+    <div className="data-table card overflow-hidden">
+      <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-purple-50">
+        <h3 className="text-xl font-bold text-gray-800">
+          Data Table <span className="text-blue-600">({data.length.toLocaleString()} points)</span>
         </h3>
       </div>
       

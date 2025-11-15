@@ -10,7 +10,7 @@ interface HeatmapProps {
   viewport: Viewport;
 }
 
-export default React.memo(function Heatmap({
+export default function Heatmap({
   data,
   dimensions,
   viewport,
@@ -33,5 +33,5 @@ export default React.memo(function Heatmap({
       }}
     />
   );
-});
+}
 

@@ -13,6 +13,12 @@ const AGGREGATION_PERIODS: AggregationPeriod[] = [
 
 export default React.memo(function TimeRangeSelector() {
   const { aggregationPeriod, setAggregationPeriod, data } = useData();
+  const [isMounted, setIsMounted] = React.useState(false);
+  
+  // Prevent hydration mismatch by only formatting dates after mount
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
   
   const timeRange = useMemo(() => {
     if (data.length === 0) return { start: 0, end: 0 };
@@ -31,13 +37,17 @@ export default React.memo(function TimeRangeSelector() {
   );
   
   const formatTime = useCallback((timestamp: number) => {
+    if (!isMounted) {
+      // Return a stable placeholder during SSR to prevent hydration mismatch
+      return '--:--:--';
+    }
     const date = new Date(timestamp);
     return date.toLocaleTimeString();
-  }, []);
+  }, [isMounted]);
   
   return (
-    <div className="time-range-selector p-4 bg-white rounded-lg shadow-md">
-      <h3 className="text-lg font-semibold mb-4">Time Range & Aggregation</h3>
+    <div className="time-range-selector panel">
+      <h3 className="text-xl font-bold mb-6 text-gray-800">Time Range & Aggregation</h3>
       
       <div className="mb-4">
         <label className="block text-sm font-medium mb-2">Time Range</label>
@@ -61,11 +71,11 @@ export default React.memo(function TimeRangeSelector() {
                   period.value === 0 ? null : period
                 )
               }
-              className={`px-3 py-1 rounded text-sm ${
+              className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
                 (aggregationPeriod?.value === period.value) ||
                 (period.value === 0 && aggregationPeriod === null)
-                  ? 'bg-green-500 text-white'
-                  : 'bg-gray-200 text-gray-700'
+                  ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg shadow-green-500/30'
+                  : 'bg-gray-100 hover:bg-gray-200 text-gray-700 hover:shadow-md'
               }`}
             >
               {period.label}
