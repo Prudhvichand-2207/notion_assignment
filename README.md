@@ -2,7 +2,7 @@
 
 A high-performance real-time dashboard built with Next.js 14+ App Router and TypeScript that can smoothly render and update 10,000+ data points at 60fps.
 
-## 🚀 Features
+## Features
 
 - **Multiple Chart Types**: Line chart, bar chart, scatter plot, and heatmap
 - **Real-time Updates**: New data arrives every 100ms (simulated)
@@ -12,12 +12,12 @@ A high-performance real-time dashboard built with Next.js 14+ App Router and Typ
 - **Responsive Design**: Works on desktop, tablet, and mobile
 - **Performance Monitoring**: Built-in FPS counter and memory usage tracking
 
-## 📋 Prerequisites
+## Prerequisites
 
 - Node.js 18+ 
 - npm or yarn
 
-## 🛠️ Setup Instructions
+## Setup Instructions
 
 1. **Install dependencies:**
    ```bash
@@ -30,7 +30,7 @@ A high-performance real-time dashboard built with Next.js 14+ App Router and Typ
    ```
 
 3. **Open your browser:**
-   Navigate to [http://localhost:3000/dashboard](http://localhost:3000/dashboard)
+   Navigate to [http://localhost:3000/dashboard] (http://localhost:3000/dashboard)
 
 4. **Build for production:**
    ```bash
@@ -38,7 +38,7 @@ A high-performance real-time dashboard built with Next.js 14+ App Router and Typ
    npm start
    ```
 
-## 🧪 Performance Testing
+## Performance Testing
 
 ### Testing Performance Metrics
 
@@ -57,12 +57,12 @@ A high-performance real-time dashboard built with Next.js 14+ App Router and Typ
 
 ### Browser Compatibility
 
-- ✅ Chrome/Edge (recommended)
-- ✅ Firefox
-- ✅ Safari
-- ⚠️ Performance may vary on older browsers
+- Chrome/Edge (recommended)
+- Firefox
+- Safari
+- Performance may vary on older browsers
 
-## 🏗️ Architecture
+## Architecture
 
 ### Next.js App Router Structure
 
@@ -106,7 +106,7 @@ hooks/
 └── useVirtualization.ts      # Virtual scrolling
 ```
 
-## 🎯 Performance Optimizations
+## Performance Optimizations
 
 ### React Optimizations
 
@@ -136,22 +136,22 @@ hooks/
 - **Virtual Scrolling**: Only visible table rows are rendered
 - **Cleanup**: Proper cleanup of event listeners and intervals
 
-## 📊 Performance Benchmarks
+## Performance Benchmarks
 
-### Minimum Requirements (✅ Achieved)
+### Minimum Requirements (Achieved)
 
-- ✅ 10,000 data points: 60fps steady
-- ✅ Real-time updates: No frame drops
-- ✅ Memory growth: < 1MB per hour
-- ✅ Interaction latency: < 100ms
+- 10,000 data points: 60fps steady
+- Real-time updates: No frame drops
+- Memory growth: < 1MB per hour
+- Interaction latency: < 100ms
 
 ### Stretch Goals
 
-- 🎯 50,000 data points: 30fps minimum
-- 🎯 100,000 data points: Usable (15fps+)
-- 🎯 Mobile performance: Smooth on tablets
+- 50,000 data points: 30fps minimum
+- 100,000 data points: Usable (15fps+)
+- Mobile performance: Smooth on tablets
 
-## 🔧 Technical Stack
+## Technical Stack
 
 - **Framework**: Next.js 14+ (App Router)
 - **Language**: TypeScript
@@ -159,7 +159,7 @@ hooks/
 - **Styling**: Tailwind CSS
 - **State Management**: React Context + Hooks
 
-## 📝 Key Implementation Details
+## Key Implementation Details
 
 ### No Chart Libraries
 
@@ -182,7 +182,7 @@ The data table uses virtual scrolling to handle large datasets:
 - Smooth scrolling performance
 - Handles 10k+ rows efficiently
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Low FPS
 
@@ -202,13 +202,13 @@ The data table uses virtual scrolling to handle large datasets:
 - Ensure canvas element has proper dimensions
 - Verify data is being generated
 
-## 📚 Additional Resources
+## Additional Resources
 
 - See [PERFORMANCE.md](./PERFORMANCE.md) for detailed performance analysis
 - Next.js Documentation: https://nextjs.org/docs
 - Canvas API: https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API
 
-## 📄 License
+## License
 
 This project is created for assignment purposes.
 

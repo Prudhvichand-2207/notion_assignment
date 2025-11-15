@@ -1,6 +1,6 @@
 # Quick Start Guide
 
-## 🚀 Getting Started in 3 Steps
+## Getting Started in 3 Steps
 
 ### 1. Install Dependencies
 ```bash
@@ -15,7 +15,7 @@ npm run dev
 ### 3. Open Dashboard
 Navigate to: http://localhost:3000/dashboard
 
-## 🎮 Using the Dashboard
+## Using the Dashboard
 
 ### Basic Controls
 
@@ -37,12 +37,12 @@ Navigate to: http://localhost:3000/dashboard
 
 ### Expected Performance
 
-- ✅ **10,000 points**: Should maintain 60fps
-- ✅ **50,000 points**: Should maintain 30fps+
-- ✅ **Memory**: Should stay stable (< 50MB)
-- ✅ **Interactions**: Should respond instantly (< 100ms)
+- **10,000 points**: Should maintain 60fps
+- **50,000 points**: Should maintain 30fps+
+- **Memory**: Should stay stable (< 50MB)
+- **Interactions**: Should respond instantly (< 100ms)
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Canvas Not Rendering
 - Refresh the page
@@ -59,7 +59,7 @@ Navigate to: http://localhost:3000/dashboard
 - Refresh the page periodically
 - Check for browser extensions causing issues
 
-## 📚 Next Steps
+## Next Steps
 
 - Read [README.md](./README.md) for detailed documentation
 - Read [PERFORMANCE.md](./PERFORMANCE.md) for performance analysis

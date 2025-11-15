@@ -1,10 +1,10 @@
 # Vercel Deployment Guide
 
-## 🚀 Deploying to Vercel
+## Deploying to Vercel
 
 This Next.js application is optimized for Vercel deployment and handles routing correctly to prevent 404 errors on refresh.
 
-## 📋 Deployment Steps
+## Deployment Steps
 
 ### Option 1: Deploy via Vercel Dashboard
 
@@ -45,7 +45,7 @@ This Next.js application is optimized for Vercel deployment and handles routing 
    vercel --prod
    ```
 
-## ✅ Routing Configuration
+## Routing Configuration
 
 The application is configured to handle routing correctly:
 
@@ -59,7 +59,7 @@ The application is configured to handle routing correctly:
 2. **Dynamic Rendering**: Dashboard page uses `export const dynamic = 'force-dynamic'` to ensure it's always rendered server-side
 3. **Proper Route Structure**: All routes are defined in the `app/` directory following Next.js conventions
 
-## 🔧 Configuration Files
+## Configuration Files
 
 ### `vercel.json`
 - Contains security headers
@@ -70,10 +70,10 @@ The application is configured to handle routing correctly:
 - SWC minification enabled
 - Console removal in production
 
-### `.vercelignore`
+### 'vercelignore'
 - Excludes unnecessary files from deployment
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### If you see 404 errors:
 
@@ -93,14 +93,14 @@ The application is configured to handle routing correctly:
    - Go to Vercel dashboard
    - Click "Redeploy" on latest deployment
 
-## 📊 Performance on Vercel
+## Performance on Vercel
 
 - **Edge Network**: Automatic CDN distribution
 - **Serverless Functions**: API routes run as serverless functions
 - **Automatic Optimizations**: Vercel optimizes Next.js builds automatically
 - **Analytics**: Available in Vercel dashboard
-
-## 🔒 Environment Variables
+ 
+## Environment Variables
 
 If you need environment variables:
 
@@ -108,7 +108,7 @@ If you need environment variables:
 2. Add your variables
 3. Redeploy
 
-## 📝 Notes
+## Notes
 
 - The application uses dynamic rendering for the dashboard to ensure fresh data
 - All routes are server-rendered, preventing 404 errors on refresh
