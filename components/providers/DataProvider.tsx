@@ -8,7 +8,7 @@ interface DataContextValue {
   data: DataPoint[];
   filteredData: DataPoint[];
   filters: FilterOptions;
-  setFilters: (filters: FilterOptions) => void;
+  setFilters: (filters: FilterOptions | ((prev: FilterOptions) => FilterOptions)) => void;
   aggregationPeriod: AggregationPeriod | null;
   setAggregationPeriod: (period: AggregationPeriod | null) => void;
   updateData: (newData: DataPoint[]) => void;

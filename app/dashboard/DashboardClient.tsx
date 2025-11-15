@@ -44,7 +44,7 @@ export default function DashboardClient() {
   
   const [containerWidth, setContainerWidth] = useState(800);
   const containerRef = React.useRef<HTMLDivElement>(null);
-  const chartContainerRef = React.useRef<HTMLDivElement>(null);
+  const chartContainerRef = React.useRef<HTMLDivElement | null>(null);
   
   // Define handleZoom FIRST before it's used in chartContainerRefCallback
   const handleZoom = useCallback(
